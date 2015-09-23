@@ -8,3 +8,24 @@ Web Server setup
 	  a response from the requested file.
 - zookfs and other services that may server static files or execute dymanic scripts
 - http.c: contains most HTTP-related code
+- Use the clean-env.sh script - this uses the same stack and memory layout every time.
+  This is the same way it'll be run during grading, so make sure all exploits work on
+  configuration
+- Reference binaries of zookws are provided in bin.tar.gz - we will use those binaries
+  for grading, so make sure that your exploits work on those binaries
+ 
+Version 1 of Web Server
+----------------------
+zook-exstack.conf
+- configures zookld, zookd-exstack, zookfs-exstack
+- *-exstack binaries have an executable stack, which makes it easier to inject executable code using
+  stack buffer overflow. 
+
+Version 2 of Web Server
+----------------------
+zook-nxstack.conf
+- configures zookld, zookd-nxstack, zookfs-nxstack
+- *-nxstack binaries have a non-executable stack; you will write exploits that bypass non-executable stack
+  later in this lab assignment
+
+
