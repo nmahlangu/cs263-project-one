@@ -28,4 +28,34 @@ zook-nxstack.conf
 - *-nxstack binaries have a non-executable stack; you will write exploits that bypass non-executable stack
   later in this lab assignment
 
+HTTP Notes
+----------
+- Simulate a browser sending a web request
+$ telnet www.w3.org 80
+Trying 128.30.52.100...
+Connected to www.w3.org.
+Escape character is '^]'.
+$ HEAD / HTTP/1.0        # need to hit enter twice after this
 
+HTTP/1.1 200 OK
+Date: Wed, 23 Sep 2015 05:28:43 GMT
+Server: Apache/2
+Content-Location: Home.html
+Vary: negotiate,accept
+TCN: choice
+Last-Modified: Tue, 22 Sep 2015 17:00:17 GMT
+ETag: "9a30-52058eeabca40;89-3f26bd17a2f00"
+Accept-Ranges: bytes
+Content-Length: 39472
+Cache-Control: max-age=600
+Expires: Wed, 23 Sep 2015 05:38:43 GMT
+P3P: policyref="http://www.w3.org/2014/08/p3p.xml"
+Connection: close
+Content-Type: text/html; charset=utf-8
+
+Status codes
+1xx: Informational - No 1xx status codes are defined, and they are reserved for experimental purposes only.
+2xx: Successful - Means that the request was processed successfully.
+3xx: Redirection - Means that the resource is somewhere else and that the client should try again at a new address.
+4xx: Client error - Means that the client screwed up somehow, usually by asking for something it should not have asked for.
+5xx: Server error - This means that the server screwed up or that it couldn't do as the client requested.
