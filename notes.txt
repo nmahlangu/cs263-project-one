@@ -1,0 +1,10 @@
+Web Server setup
+----------------
+- zookld, a laucher daemon that launches services configured in the file zook.conf
+- zookd, a dispatcher that reroutes HTTP requests to corresponding services
+	- listens on a port (default is 8080) for incoming HTTP requests and reads the first
+	  line of each request for dispatching. here, zookd is configured to dispatch every
+	  request to the zookfs service, which reads the rest of the request and generates
+	  a response from the requested file.
+- zookfs and other services that may server static files or execute dymanic scripts
+- http.c: contains most HTTP-related code

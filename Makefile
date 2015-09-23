@@ -89,16 +89,17 @@ prepare-submit-a: lab1a-handin.tar.gz
 .PHONY: prepare-submit-b
 prepare-submit-b: lab1b-handin.tar.gz
 
-.PHONY: submit-a
-submit-a: lab1a-handin.tar.gz
-	./submit.py $<
-
-.PHONY: submit-b
-submit-b: lab1b-handin.tar.gz
-	./submit.py $<
-
-.PHONY: submit
-submit: lab1-handin.tar.gz
-	./submit.py $<
+#Eventually add support for automatic submission script.
+#.PHONY: submit-a
+#submit-a: lab1a-handin.tar.gz
+#	./submit.py $<
+#
+#.PHONY: submit-b
+#submit-b: lab1b-handin.tar.gz
+#	./submit.py $<
+#
+#.PHONY: submit
+#submit: lab1-handin.tar.gz
+#	./submit.py $<
 
 .PRECIOUS: lab1-handin.tar.gz
