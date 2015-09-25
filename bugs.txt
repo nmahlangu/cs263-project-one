@@ -15,3 +15,13 @@ another description.
     <paste offending line(s) of code here>
 
 # many more come here
+[http.c:105]
+In zookd.c, the buffer reqpath is declared with size 2048 bytes. 
+However, one can write past the end of this buffer by sending the
+server a request like "GET /{long_path} HTTP/1.0" where {long_path}
+is an unexpectedly long path. For example, in /bugs/1, run the
+command "./bug1 s" for an example of what happens with a short
+enough request. However, run "./bug1 l" which contains a path
+with 5000 characters and causes the server to segmentation fault.
+
+	url_decode(reqpath, sp1);

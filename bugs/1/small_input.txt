@@ -1,0 +1,1 @@
+GET /foo.html HTTP/1.0
