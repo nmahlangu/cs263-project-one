@@ -1,0 +1,8 @@
+HTTP/1.1 200 OK
+Date: Tue, 17 Feb 1998 22:24:53 GMT
+Server: Apache/1.2.5
+Last-Modified: Wed, 11 Feb 1998 18:22:22 GMT ETag: "2c3136-23c1-34e1ec5e"
+Content-Length: 9153
+Accept-Ranges: bytes
+Connection: close
+Content-Type: text/html; charset=ISO-8859-1
