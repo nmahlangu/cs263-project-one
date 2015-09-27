@@ -3,21 +3,16 @@
 # desc
 #
 
-[zookd.c:1612]
-description goes here. for example, the 'buf' variable can be
-overwritten by the 'msg' variable because ...
-
-    <paste offending line(s) of code here>
-
-[http.c:1512]
-another description.
-
-    <paste offending line(s) of code here>
-
-# many more come here
 [http.c:105]
 In zookd.c, the buffer reqpath is declared with size 2048 bytes. 
 However, one can write past the end of this buffer by sending the
-server a request.
+server a GET request where REQUEST-URI is greater than 2066 characters.
 
 	url_decode(reqpath, sp1);
+
+[http.c:159]
+In the function http_request_headers, value is a buffer of size
+512 bytes. However, one can write past the end of this buffer by
+passing a header field with a value longer 535 characters.
+
+	url_decode(value, sp);
