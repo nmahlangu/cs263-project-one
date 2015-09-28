@@ -16,3 +16,13 @@ In the function http_request_headers, value is a buffer of size
 passing a header field with a value longer 535 characters.
 
 	url_decode(value, sp);
+
+[http.c:]
+In the function http_request_headers, envvar is a buffer of size
+512 bytes. However, one can write past the end of this buffer by
+passing a header field with a key that is unexpectedly long. A key
+of 1043-1046 causes the server to return an empty response; 1047
+will cause the server to hang; and 1048 will cause the server
+to crash.
+
+	sprintf(envvar, "HTTP_%s", buf);
