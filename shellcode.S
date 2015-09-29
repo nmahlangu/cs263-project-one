@@ -1,7 +1,7 @@
 #include <sys/syscall.h>
 
-#define STRING	"answers.txt"
-#define STRLEN	11
+#define STRING	"grades.txt"
+#define STRLEN	10
 #define ARGV	(STRLEN+1)
 #define ENVP	(ARGV+4)
 
