@@ -45,12 +45,13 @@ check-bugs:
 	./check-bugs.py bugs.txt
 
 .PHONY: check-crash
-check-crash: bin.tar.gz exploit-2a.py exploit-2b.py exploit-2c.py shellcode.bin
+check-crash: bin.tar.gz exploit-2a.py exploit-2b.py exploit-2c.py exploit-2c.py shellcode.bin
 	./check-bin.sh
 	tar xf bin.tar.gz
 	./check-part2.sh zook-exstack.conf ./exploit-2a.py
 	./check-part2.sh zook-exstack.conf ./exploit-2b.py
 	./check-part2.sh zook-exstack.conf ./exploit-2c.py
+	./check-part2.sh zook-exstack.conf ./exploit-2d.py
 
 .PHONY: check-exstack
 check-exstack: bin.tar.gz exploit-3.py shellcode.bin

@@ -28,6 +28,11 @@ to crash.
 	sprintf(envvar, "HTTP_%s", buf);
 
 [http.c:282]
-
+In the function http_serve, the function strcat is used to append
+the buffer pn with the buffer name. The buffer pn is only 1024
+bytes so if name is too long, this will cause an overflow. Sending
+a path with numerous '/' characters will do this - I was able to
+cause the server to hang by sending a custom path of length 1009
+characters.
 
     strcat(pn, name);
