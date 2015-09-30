@@ -26,3 +26,8 @@ will cause the server to hang; and 1048 will cause the server
 to crash.
 
 	sprintf(envvar, "HTTP_%s", buf);
+
+[http.c:282]
+
+
+    strcat(pn, name);

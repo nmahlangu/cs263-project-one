@@ -1,7 +1,7 @@
 #include <sys/syscall.h>
 
-#define STRING	"testgrades.txt"
-#define STRLEN	14
+#define STRING	"/home/httpd/lab/grades.txt"
+#define STRLEN	26
 #define ARGV	(STRLEN+1)
 #define ENVP	(ARGV+4)
 
