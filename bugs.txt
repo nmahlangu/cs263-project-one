@@ -10,6 +10,10 @@ server a GET request where REQUEST-URI is greater than 2066 characters.
 
 	url_decode(reqpath, sp1);
 
+[TODO]
+
+	TODO;
+
 [http.c:159]
 In the function http_request_headers, value is a buffer of size
 512 bytes. However, one can write past the end of this buffer by
@@ -36,3 +40,5 @@ cause the server to hang by sending a custom path of length 1009
 characters.
 
     strcat(pn, name);
+
+

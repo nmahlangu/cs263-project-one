@@ -1,1 +1,27 @@
-## Place your answers here.
+# Explain whether or not the the buffer overflow vulnerabilities you found in
+# Exercise 1 can be exploited to hijack control flow of the web server and unlink
+#/home/httpd/grades.txt
+
+exploit-2a.py (exploits http.c:105)
+- This exploit is overflowing a local buffer so just like in exploit-3.py, I could
+  put my attack code in the buffer and overwrite the return address above %ebp to
+  jump to the start of my attack code.
+
+exploit-2b.py
+- TODO
+
+exploit-2c.py
+- This exploit was actually used to generate exploit-3 so yes, it can definitely
+  be used to hijack control flow of the webserver and unlink the specified file :)
+
+exploit-2d.py
+- This exploit is overflowing a local buffer so just like in exploit-3.py, I could
+  put my attack code in the buffer and overwrite the return address above %ebp to
+  jump to the start of my attack code.
+
+exploit-2e.py
+- This exploit is overflowing a local buffer so just like in exploit-3.py, I could
+  put my attack code in the buffer and overwrite the return address above %ebp to
+  jump to the start of my attack code.
+
+
