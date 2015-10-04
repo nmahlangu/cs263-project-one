@@ -104,3 +104,7 @@ zoobar/templates/._zoobars.js
 ._.DS_Store
 ._exploit-3.py
 ._shellcode_original.S
+._exploit-2e.py
+._exploit-4a.py
+bugs/2/._small_input.txt
+bugs/2/._bug2.c
