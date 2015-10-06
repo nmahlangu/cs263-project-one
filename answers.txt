@@ -1,3 +1,36 @@
+# Exercise 2
+# Provide the code for the exploits in files called exploit-2a.py and exploit-2b.py, 
+# and indicate in answers.txt which buffer overflow each exploit triggers.
+
+[http.c:105]
+ - This buffer overflow is exploited in exploit-2a.py
+ - Offending code:
+ 	  url_decode(reqpath, sp1);
+
+[http.c:282]
+- This buffer overflow is exploited in exploit-2b.py
+- Offending code:
+    strcat(pn, name);
+    ...
+    handler(fd, pn);
+
+[http.c:159]
+- This buffer overflow is exploited in exploit-2c.py
+- Offending code:
+    url_decode(value, sp);
+
+[http.c:165]
+- This buffer overflow is exploited in exploit-2d.py
+- Offending code:
+    sprintf(envvar, "HTTP_%s", buf);
+
+[http.c:172]
+- This buffer overflow is exploited in exploit-2e.py
+- Offending code:
+	strcat(pn, name);
+    ...
+    return 0;
+
 # Explain whether or not the the buffer overflow vulnerabilities you found in
 # Exercise 1 can be exploited to hijack control flow of the web server and unlink
 #/home/httpd/grades.txt

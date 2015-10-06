@@ -31,6 +31,8 @@
 - This buffer overflow is exploited in exploit-2b.py
 
     strcat(pn, name);
+    ...
+    handler(fd, pn);
 
 [http.c:159]
 - Buffer that might overflow: char value[512] (http.c:120)
@@ -72,6 +74,7 @@
   In my code, I quickly discovered that a string of length 1500 quickly 
   causes undesired bahevior from the server.
 - Can be prevented with a stack canary: Yes
+- This buffer overflow is exploited in exploit-2e.py
 
     strcat(pn, name);
     ...
