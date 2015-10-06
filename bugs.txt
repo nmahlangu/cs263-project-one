@@ -1,44 +1,76 @@
-#
-# [file:#lines]
-# desc
-#
+# Study the web server's code, and find examples of code that is vulnerable 
+# to memory corruption via buffer overflows. Write down a description of 
+# each vulnerability in the file /home/httpd/lab/bugs.txt; use the format 
+# described in that file. For each vulnerability, describe the buffer which 
+# may overflow, how you would structure the input to the web server (i.e., 
+# the HTTP request) to overflow the buffer, and whether the vulnerability 
+# can be prevented using stack canaries. Locate at least 5 different 
+# vulnerabilities.
 
 [http.c:105]
-In zookd.c, the buffer reqpath is declared with size 2048 bytes. 
-However, one can write past the end of this buffer by sending the
-server a GET request where REQUEST-URI is greater than 2066 characters.
+- Buffer that might overflow: char reqpath[2048] (zookd.c, line 65)
+- How to structure input for an overflow: send a GET request of the 
+  form 'GET /path HTTP/1.0\r\n\r\n' where 'path' is large enough to 
+  overflow the buffer. Here, 2067 characters is the lowest number of
+  characters to achieve this result.
+ - Can be prevented with a stack canary: Yes
+ - This buffer overflow is exploited in exploit-2a.py
 
-	url_decode(reqpath, sp1);
+ 	url_decode(reqpath, sp1);
 
-[TODO]
+ [http.c:282]
+- Buffer that might overflow: char pn[1024] (http.c:176)
+- How to structure input for an overflow: send a GET request of the
+  form 'Get /path HTTP/1.0\r\n\r\n' where 'path' is large enough
+  to overflow the buffer 'pn', but not the buffer 'reqpath' mentioned
+  above. This is not only a standard buffer overflow, but can be used
+  to take control of the program by overwriting the function pointer
+  'handler' right above this buffer in memory.
+- Can be prevented with a stack canary: No, you can do an exploit that
+  doesn't write past the boundary of the overflowed buffer
+- This buffer overflow is exploited in exploit-2b.py
 
-	TODO;
+	strcat(pn, name);
 
 [http.c:159]
-In the function http_request_headers, value is a buffer of size
-512 bytes. However, one can write past the end of this buffer by
-passing a header field with a value longer 535 characters.
+- Buffer that might overflow: char value[512] (http.c:120)
+- How to structure input for an overflow: send a GET request of the
+  form
+  	'GET /path HTTP/1.0\r\n\r\n'
+  	'Host: {evil}\r\n\r\n'
+  where '{evil}' is a string long enough to overflow the buffer 'value'.
+  In my code, I quickly discovered that a string of length 5000 quickly 
+  causes undesired behavior from the server.
+- Can be prevented with a stack canary: No, you can do an exploit that
+  doesn't write past the boundaries of this buffer
+- This buffer overflow is exploited in exploit-2c.py
 
 	url_decode(value, sp);
 
 [http.c:165]
-In the function http_request_headers, envvar is a buffer of size
-512 bytes. However, one can write past the end of this buffer by
-passing a header field with a key that is unexpectedly long. A key
-of 1043-1046 causes the server to return an empty response; 1047
-will cause the server to hang; and 1048 will cause the server
-to crash.
+- Buffer that might overflow: char envvar[512] (http.c:121)
+- How to structure input for an overflow: send a GET request of the
+  form
+  	'GET /path HTTP/1.0\r\n\r\n'
+  	'{evil}: birk105.studby.uio.no:81\r\n\r\n'
+  where '{evil}' is a string long enough to overflow the buffer 'envvar'.
+  In my code, I quickly discovered that a string of length 1200+ quickly
+  causes undesired behavior from the server.
+- Can be prevented with a stack canary: No, you can do an exploit that
+  doesnt write past the boundaries of this buffer
+- This buffer overflow is exploited in exploit-2d.py
 
 	sprintf(envvar, "HTTP_%s", buf);
 
-[http.c:282]
-In the function http_serve, the function strcat is used to append
-the buffer pn with the buffer name. The buffer pn is only 1024
-bytes so if name is too long, this will cause an overflow. Sending
-a path with numerous '/' characters will do this - I was able to
-cause the server to hang by sending a custom path of length 1009
-characters.
+ [http.c:282]
+- Buffer that might overflow: char pn[1024] (http.c:176)
+- NOTE: this is different than the 2nd attack mentioned above, which did
+  NOT overwrite the return address of the function. How to structure input 
+  for an overflow: send a GET request of the form 'Get /path HTTP/1.0\r\n\r\n' 
+  where 'path' is large enough to overflow the buffer 'pn' and overwrite the 
+  return address of the function, but not the buffer 'reqpath' mentioned earlier.
+  In my code, I quickly discovered that a string of length 1500 quickly 
+  causes undesired bahevior from the server.
+- Can be prevented with a stack canary: Yes
 
-    strcat(pn, name);
-
-
+	strcat(pn, name);
