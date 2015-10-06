@@ -341,11 +341,11 @@ void http_serve_file(int fd, const char *pn)
     close(filefd);
 }
 
-void dir_join(char *dst, const char *dirname, const char *filename) {
-    strcpy(dst, dirname);
+void dir_join(char *dst, const char *dirname, const char *filename, int dst_len) {
+    strncpy(dst, dirname, dst_len);
     if (dst[strlen(dst) - 1] != '/')
         strcat(dst, "/");
-    strcat(dst, filename);
+    strncat(dst, filename, dst_len - strlen(dst));
 }
 
 void http_serve_directory(int fd, const char *pn) {
@@ -356,9 +356,9 @@ void http_serve_directory(int fd, const char *pn) {
     int i;
 
     for (i = 0; indices[i]; i++) {
-        dir_join(name, pn, indices[i]);
+        dir_join(name, pn, indices[i], 1024 - strlen(name));
         if (stat(name, &st) == 0 && S_ISREG(st.st_mode)) {
-            dir_join(name, getenv("SCRIPT_NAME"), indices[i]);
+            dir_join(name, getenv("SCRIPT_NAME"), indices[i], 1024 - strlen(name));
             break;
         }
     }
