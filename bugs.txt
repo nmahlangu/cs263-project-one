@@ -19,7 +19,7 @@
  	  url_decode(reqpath, sp1);
 
 [http.c:282]
-- Buffer that might overflow: char pn[1024] (http.c:176)
+- Buffer that might overflow: char pn[1024] (http.c:276)
 - How to structure input for an overflow: send a GET request of the
   form 'Get /path HTTP/1.0\r\n\r\n' where 'path' is large enough
   to overflow the buffer 'pn', but not the buffer 'reqpath' mentioned
@@ -59,23 +59,20 @@
   In my code, I quickly discovered that a string of length 1200+ quickly
   causes undesired behavior from the server.
 - Can be prevented with a stack canary: No, you can do an exploit that
-  doesnt write past the boundaries of this buffer
+  doesn't write past the boundaries of this buffer
 - This buffer overflow is exploited in exploit-2d.py
 
     sprintf(envvar, "HTTP_%s", buf);
 
-[http.c:172]
-- Buffer that might overflow: char pn[1024] (http.c:176)
-- NOTE: this is different than the 2nd attack mentioned above, which did
-  NOT overwrite the return address of the function. How to structure input 
-  for an overflow: send a GET request of the form 'Get /path HTTP/1.0\r\n\r\n' 
-  where 'path' is large enough to overflow the buffer 'pn' and overwrite the 
-  return address of the function, but not the buffer 'reqpath' mentioned earlier.
-  In my code, I quickly discovered that a string of length 1500 quickly 
-  causes undesired bahevior from the server.
-- Can be prevented with a stack canary: Yes
-- This buffer overflow is exploited in exploit-2e.py
 
-    strcat(pn, name);
-    ...
-    return 0;
+[http.c:358]
+- Buffer that might overflow: char name[1024] (http.c:353)
+- How to structure input for an overflow: send a GET request of the
+  form
+    'GET /path HTTP/1.0\r\n\r\n'
+  where path is the string './' repeated long enough to overflow the buffer.
+- Can be prevented with a stack canary: No, you can do an exploit that 
+  doesn't write past the boundaries of this buffer
+- This buffer overflow is exploited in exploit-2e.py
+  
+    dir_join(name, pn, indices[i]);

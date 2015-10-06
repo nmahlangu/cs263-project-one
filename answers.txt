@@ -24,12 +24,10 @@
 - Offending code:
     sprintf(envvar, "HTTP_%s", buf);
 
-[http.c:172]
+[http.c:358]
 - This buffer overflow is exploited in exploit-2e.py
 - Offending code:
-	strcat(pn, name);
-    ...
-    return 0;
+    dir_join(name, pn, indices[i]);
 
 
 *************************************************************************************
@@ -51,7 +49,7 @@
     strcat(pn, name);
     ...
     handler(fd, pn);
-- This this exploit is overwriting a function pointer and acnnot
+- This exploit is overwriting a function pointer and cannot
   be used in a manner similar to the one in exploit-3.py
 
 [http.c:159]
@@ -70,12 +68,10 @@
   put my attack code in the buffer and overwrite the return address above %ebp to
   jump to the start of my attack code.
 
-[http.c:172]
+[http.c:358]
 - This buffer overflow is exploited in exploit-2e.py
 - Offending code:
-	strcat(pn, name);
-    ...
-  return 0;
+    dir_join(name, pn, indices[i]);
 - This exploit is overflowing a local buffer so just like in exploit-3.py, I could
   put my attack code in the buffer and overwrite the return address above %ebp to
   jump to the start of my attack code.
