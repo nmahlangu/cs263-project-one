@@ -31,9 +31,74 @@
     ...
     return 0;
 
-# Explain whether or not the the buffer overflow vulnerabilities you found in
-# Exercise 1 can be exploited to hijack control flow of the web server and unlink
-#/home/httpd/grades.txt
+# Exercise 3
+# Explain in answers.txt whether or not the other buffer overflow vulnerabilities you 
+# found in Exercise 1 can be exploited in this manner.
+
+[http.c:105]
+ - This buffer overflow is exploited in exploit-2a.py
+ - Offending code:
+ 	  url_decode(reqpath, sp1);
+- This exploit is overflowing a local buffer so just like in exploit-3.py, I could
+  put my attack code in the buffer and overwrite the return address above %ebp to
+  jump to the start of my attack code.
+
+[http.c:282]
+- This buffer overflow is exploited in exploit-2b.py
+- Offending code:
+    strcat(pn, name);
+    ...
+    handler(fd, pn);
+- This this exploit is overwriting a function pointer and acnnot
+  be used in a manner similar to the one in exploit-3.py
+
+[http.c:159]
+- This buffer overflow is exploited in exploit-2c.py
+- Offending code:
+    url_decode(value, sp);
+- This exploit is overflowing a local buffer so just like in exploit-3.py, I could
+  put my attack code in the buffer and overwrite the return address above %ebp to
+  jump to the start of my attack code.
+
+[http.c:165]
+- This buffer overflow is exploited in exploit-2d.py
+- Offending code:
+    sprintf(envvar, "HTTP_%s", buf);
+- This exploit is overflowing a local buffer so just like in exploit-3.py, I could
+  put my attack code in the buffer and overwrite the return address above %ebp to
+  jump to the start of my attack code.
+
+[http.c:172]
+- This buffer overflow is exploited in exploit-2e.py
+- Offending code:
+	strcat(pn, name);
+    ...
+    return 0;
+- This exploit is overflowing a local buffer so just like in exploit-3.py, I could
+  put my attack code in the buffer and overwrite the return address above %ebp to
+  jump to the start of my attack code.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 exploit-2a.py (exploits http.c:105)
 - This exploit is overflowing a local buffer so just like in exploit-3.py, I could
