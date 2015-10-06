@@ -31,6 +31,8 @@
     ...
     return 0;
 
+
+*************************************************************************************
 # Exercise 3
 # Explain in answers.txt whether or not the other buffer overflow vulnerabilities you 
 # found in Exercise 1 can be exploited in this manner.
@@ -73,7 +75,30 @@
 - Offending code:
 	strcat(pn, name);
     ...
-    return 0;
+  return 0;
 - This exploit is overflowing a local buffer so just like in exploit-3.py, I could
   put my attack code in the buffer and overwrite the return address above %ebp to
   jump to the start of my attack code.
+
+
+**************************************************************************************
+# Exercise 4
+# Describe the attacks you have found in answers.txt, along with an explanation of the 
+# limitations of the attack, what an attacker can accomplish, why it works, and how 
+# you might go about fixing or preventing it.
+1) An attack can currently view most files on the web server (specifically, files that 
+   are in the lab directory) if they know the name of a file. For example, to view the
+   code for http.c, the hacker can visit XXX.XXX.XXX.XXX:8080/http.c and see a printout
+   of all the that code that is being used to process his requests and such. This works
+   for a number of reasons, the main one being that almost every file currently has read
+   access specified for all users. One could fix this vulnerability by using chmod to 
+   remove read, write, and execute access for the "all" group.
+2) While one can use the above vulnerability to view files that are in the lab/ directory,
+   it cannot be used to view files in the parent directory (as it should be). However,
+   imaging there's a file called index.html in the parent directory of lab/. By sending
+   a GET request of the form 'GET /../index.html HTTP/1.0\r\n\r\n', the hacker is able
+   to go up a directory and view the specified file. This works mainly because the server
+   is not configured to prevent any specified file (detailed in #1 right above) or directory
+   access, something that most web servers are configured with by default today. One
+   way to fix this is to ensure that files can only access other files in the current
+   directory (super naive way is to return 500 every time you see '..' in the file path.
