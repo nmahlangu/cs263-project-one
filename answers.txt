@@ -51,6 +51,7 @@
     handler(fd, pn);
 - This exploit is overwriting a function pointer and cannot
   be used in a manner similar to the one in exploit-3.py
+- 
 
 [http.c:159]
 - This buffer overflow is exploited in exploit-2c.py
@@ -72,10 +73,8 @@
 - This buffer overflow is exploited in exploit-2e.py
 - Offending code:
     dir_join(name, pn, indices[i]);
-- This exploit is overflowing a local buffer so just like in exploit-3.py, I could
-  put my attack code in the buffer and overwrite the return address above %ebp to
-  jump to the start of my attack code.
-
+- This exploit cannot be used by the attacker since only a valid directory
+  will reach the code this exploit takes advantage of
 
 **************************************************************************************
 # Exercise 4
@@ -98,3 +97,7 @@
    access, something that most web servers are configured with by default today. One
    way to fix this is to ensure that files can only access other files in the current
    directory (super naive way is to return 500 every time you see '..' in the file path.
+3) There appear to be plaintext passwords, as evidenced by z_client.py. On line
+   84 and 85, the function register is called with the plaintext passwords
+   "supersecretpassword" and "pass". One way to fix this is to use password hashing
+   and never use plaintext passwords. 
